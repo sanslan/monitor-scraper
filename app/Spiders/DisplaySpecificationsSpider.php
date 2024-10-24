@@ -82,6 +82,7 @@ class DisplaySpecificationsSpider extends BasicSpider
             $brands[$node->text()] = $node->attr('href');
         });
 
+
         foreach ($brands as $name => $url){
             yield ParseResult::fromValue($this->sendRequest($url, 'parseBrandPages'));
         }
@@ -174,7 +175,7 @@ class DisplaySpecificationsSpider extends BasicSpider
             $sRGB = 'NA';
         }
         try {
-            $adobeRGB = $this->getCrawler($response)->filter('#model-brief-specifications b:contains("sRGB")')->getNode(0)->nextSibling->nodeValue;
+            $adobeRGB = $this->getCrawler($response)->filter('#model-brief-specifications b:contains("Adobe RGB")')->getNode(0)->nextSibling->nodeValue;
         }catch (Exception){
             $adobeRGB = 'NA';
         }
