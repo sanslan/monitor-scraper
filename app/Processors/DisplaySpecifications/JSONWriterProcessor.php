@@ -2,6 +2,7 @@
 
 namespace App\Processors\DisplaySpecifications;
 
+use Illuminate\Support\Facades\Storage;
 use RoachPHP\ItemPipeline\ItemInterface;
 use RoachPHP\ItemPipeline\Processors\ItemProcessorInterface;
 use RoachPHP\Support\Configurable;
@@ -14,11 +15,11 @@ class JSONWriterProcessor implements ItemProcessorInterface
     {
         $jsonFile = 'monitors.json';
 
-        if (!file_exists($jsonFile)) {
+        if (!Storage::disk('local')->exists($jsonFile)) {
             $dataArray = ['monitors' => []];
-        }else{
+        } else {
 
-            $existingData = file_get_contents($jsonFile);
+            $existingData = Storage::disk('local')->get($jsonFile);
 
             $dataArray = json_decode($existingData, true);
 
@@ -29,9 +30,9 @@ class JSONWriterProcessor implements ItemProcessorInterface
 
         $dataArray['monitors'][] = $item->all();
 
-        echo $item->get('Manufacturer'). PHP_EOL;
+        echo $item->get('Manufacturer') . ': ' . $item->get('Model') . PHP_EOL;
 
-        file_put_contents($jsonFile, json_encode($dataArray,JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        Storage::disk('local')->put($jsonFile, json_encode($dataArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 
         return $item;
     }
