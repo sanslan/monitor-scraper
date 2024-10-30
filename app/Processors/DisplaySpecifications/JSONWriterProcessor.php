@@ -15,7 +15,7 @@ class JSONWriterProcessor implements ItemProcessorInterface
     {
         $jsonFile = 'monitors.json';
 
-        if (!Storage::disk('local')->exists($jsonFile)) {
+        if (! Storage::disk('local')->exists($jsonFile)) {
             $dataArray = ['monitors' => []];
         } else {
 
@@ -23,18 +23,17 @@ class JSONWriterProcessor implements ItemProcessorInterface
 
             $dataArray = json_decode($existingData, true);
 
-            if (!is_array($dataArray)) {
+            if (! is_array($dataArray)) {
                 $dataArray = ['monitors' => []];
             }
         }
 
         $dataArray['monitors'][] = $item->all();
 
-        echo $item->get('Manufacturer') . ': ' . $item->get('Model') . PHP_EOL;
+        echo $item->get('Manufacturer').': '.$item->get('Model').PHP_EOL;
 
         Storage::disk('local')->put($jsonFile, json_encode($dataArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 
         return $item;
     }
-
 }

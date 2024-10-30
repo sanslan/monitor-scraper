@@ -44,6 +44,6 @@ return [
     'default_spider_namespace' => 'App\Spiders',
 
     'proxy_url' => env('PROXY_URL', 'https://api.zyte.com/v1/extract'),
-    'initial_request' =>env('INITIAL_REQUEST_URL', 'https://www.displayspecifications.com/en/'),
-    'proxy_key' => env('PROXY_KEY')
+    'initial_request' => env('INITIAL_REQUEST_URL', 'https://www.displayspecifications.com/en/'),
+    'proxy_key' => env('PROXY_KEY'),
 ];
